@@ -14,35 +14,21 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text HighScoreText;
     public GameObject GameOverText;
-    
+
     private bool m_Started = false;
-    private int m_Points;
-    private int m_HighScore;
-    public Text m_Name;
-    private Text m_HSName;
+    public int m_Points;
 
-    private bool m_GameOver = false;
-
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
+    public bool m_GameOver = false;
 
     // Start is called before the first frame update
     void Start()
     {
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
-        
-        int[] pointCountArray = new [] {1,1,2,2,5,5};
+
+        int[] pointCountArray = new[] { 1, 1, 2, 2, 5, 5 };
         for (int i = 0; i < LineCount; ++i)
         {
             for (int x = 0; x < perLine; ++x)
@@ -53,6 +39,8 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+
+        HighScoreText.text = $"Best Score: {NameScoreManager.Instance.m_HSName} : {NameScoreManager.Instance.m_HighScore}";
     }
 
     private void Update()
@@ -72,16 +60,23 @@ public class MainManager : MonoBehaviour
         }
         else if (m_GameOver)
         {
-            if (m_HighScore < m_Points)
+            if (NameScoreManager.Instance.m_HighScore < m_Points)
             {
-                m_HighScore = m_Points;
-                m_HSName = m_Name;
+                NameScoreManager.Instance.m_HighScore = m_Points;
+                NameScoreManager.Instance.m_HSName = NameScoreManager.Instance.m_Name.text;
+                NameScoreManager.Instance.SaveAllData();
             }
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("Quitting game...");
+            Application.Quit();
         }
     }
 
@@ -97,9 +92,5 @@ public class MainManager : MonoBehaviour
         GameOverText.SetActive(true);
     }
 
-    public void StartGame()
-    {
-        m_Name = GameObject.Find("Text Area").GetComponent<Text>();
-        SceneManager.LoadScene("main");
-    }
+
 }
