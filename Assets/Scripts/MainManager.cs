@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class MainManager : MonoBehaviour
 {
+    public static MainManager Instance;
+
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
@@ -15,10 +18,24 @@ public class MainManager : MonoBehaviour
     
     private bool m_Started = false;
     private int m_Points;
-    
+    private int m_HighScore;
+    public Text m_Name;
+    private Text m_HSName;
+
     private bool m_GameOver = false;
 
-    
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +72,12 @@ public class MainManager : MonoBehaviour
         }
         else if (m_GameOver)
         {
+            if (m_HighScore < m_Points)
+            {
+                m_HighScore = m_Points;
+                m_HSName = m_Name;
+            }
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -72,5 +95,11 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+    }
+
+    public void StartGame()
+    {
+        m_Name = GameObject.Find("Text Area").GetComponent<Text>();
+        SceneManager.LoadScene("main");
     }
 }
