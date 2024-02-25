@@ -10,7 +10,7 @@ public class NameScoreManager : MonoBehaviour
 {
     public static NameScoreManager Instance;
 
-    public int m_HighScore;
+    public int m_HighScore = 0;
     public Text m_Name;
     public string m_HSName;
     public TextMeshProUGUI highScoreText;
