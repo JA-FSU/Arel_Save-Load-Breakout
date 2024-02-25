@@ -63,7 +63,7 @@ public class MainManager : MonoBehaviour
             if (NameScoreManager.Instance.m_HighScore < m_Points)
             {
                 NameScoreManager.Instance.m_HighScore = m_Points;
-                NameScoreManager.Instance.m_HSName = NameScoreManager.Instance.m_Name.text;
+                NameScoreManager.Instance.m_HSName = NameScoreManager.Instance.m_Name;
                 NameScoreManager.Instance.SaveAllData();
             }
 

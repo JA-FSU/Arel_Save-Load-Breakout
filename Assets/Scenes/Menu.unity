@@ -1528,9 +1528,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HighScore: 0
-  m_Name: {fileID: 0}
+  m_Name: 
   m_HSName: 
   highScoreText: {fileID: 1663119950}
+  nameInput: {fileID: 954377251}
 --- !u!4 &1700305805
 Transform:
   m_ObjectHideFlags: 0

@@ -11,9 +11,10 @@ public class NameScoreManager : MonoBehaviour
     public static NameScoreManager Instance;
 
     public int m_HighScore = 0;
-    public Text m_Name;
+    public string m_Name;
     public string m_HSName;
     public TextMeshProUGUI highScoreText;
+    public TMP_InputField nameInput;
 
     private void Awake()
     {
@@ -43,7 +44,7 @@ public class NameScoreManager : MonoBehaviour
 
     public void StartGame()
     {
-        m_Name = GameObject.Find("Name Text").GetComponent<Text>();
+        m_Name = nameInput.text;
         SceneManager.LoadScene("main");
     }
 
